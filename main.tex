@@ -1,0 +1,91 @@
+\documentclass[14pt,a4paper,oneside,openany]{extreport}
+\pdfminorversion=7
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[english]{babel}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{graphicx,booktabs,array,tabularx,longtable,multirow}
+\usepackage{xcolor,setspace,fancyhdr,enumitem,titlesec}
+\usepackage{needspace,etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subcaption,float,placeins}
+\usepackage[hidelinks,breaklinks]{hyperref}
+\usepackage{bookmark}
+\hypersetup{pdftitle={Safe Drone Navigation under Disturbance Shifts},pdfauthor={Salem Fradi},pdfsubject={SupCom final year internship report 2026}}
+\definecolor{navy}{HTML}{18334F}
+\definecolor{teal}{HTML}{067C82}
+\definecolor{lightblue}{HTML}{DBE6F0}
+\setstretch{1.10}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.15em}
+\setlength{\emergencystretch}{3em}
+\setlength{\textfloatsep}{16pt plus 2pt minus 2pt}
+\setlength{\floatsep}{14pt plus 2pt minus 2pt}
+\setlist{itemsep=2pt,topsep=5pt,leftmargin=1.8em}
+\titleformat{\chapter}[display]{\normalfont\LARGE\bfseries\raggedright\hyphenpenalty=10000}{\large Chapter \thechapter}{8pt}{}
+\titlespacing*{\chapter}{0pt}{-12pt}{22pt}
+\titleformat{\section}{\large\bfseries\raggedright\hyphenpenalty=10000}{\thesection}{.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries\raggedright\hyphenpenalty=10000}{\thesubsection}{.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\raggedright\hyphenpenalty=10000}{}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
+\setcounter{tocdepth}{1}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\newcommand{\introsection}[1]{\section*{#1}\phantomsection\addcontentsline{toc}{section}{#1}}
+\setcounter{secnumdepth}{2}
+\makeatletter
+\renewcommand*{\l@section}{\@dottedtocline{1}{1.5em}{3em}}
+\patchcmd{\l@chapter}{1.5em}{2.3em}{}{\errmessage{Chapter entry width patch failed}}
+\renewcommand*{\l@figure}{\@dottedtocline{1}{1.5em}{3em}}
+\let\l@table\l@figure
+\let\report@chapterentry\l@chapter
+\renewcommand*{\l@chapter}[2]{\Needspace{3\baselineskip}\report@chapterentry{#1}{#2}}
+\makeatother
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Sup'Com}
+\fancyhead[R]{\small Salem Fradi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\pos}[1]{\left[#1\right]_+}
+\newcommand{\cvar}{\operatorname{CVaR}}
+\newcommand{\clip}{\operatorname{clip}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\begin{document}
+\selectlanguage{english}
+\input{frontmatter}
+\clearpage\pagenumbering{arabic}
+\input{chapters/general_introduction}
+\input{chapters/01_state_of_the_art}
+\input{chapters/02_system_model}
+\input{chapters/03_adaptive_barrier_filtering}
+\input{chapters/04_results_discussion}
+\input{chapters/general_conclusion}
+\appendix
+\titleformat{\chapter}[display]{\normalfont\LARGE\bfseries\raggedright}{\large Appendix \thechapter}{8pt}{}
+\input{appendices/rl_training}
+\input{appendices/wfiot_publication}
+\clearpage
+\phantomsection\addcontentsline{toc}{chapter}{Bibliography}
+{\small\setstretch{1.02}\setlength{\bibsep}{3pt}\bibliographystyle{IEEEtran}\bibliography{root_refs,literature_refs,theory_refs,extension_refs,wfiot_intro_refs}}
+\end{document}
+

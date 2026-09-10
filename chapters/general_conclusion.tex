@@ -1,0 +1,20 @@
+\begingroup\setstretch{1.03}\setlength{\parskip}{0pt}
+\chapter*{General Conclusion}
+\phantomsection
+\addcontentsline{toc}{chapter}{General Conclusion}
+\markboth{General Conclusion}{General Conclusion}
+
+Reliable robotic navigation must account for disturbances, imperfect observations and unexpected obstacles. This report has examined how reinforcement learning and control barrier functions address these challenges together: the policy provides task-directed behavior, while the safety filter corrects its actions according to the navigation constraints.
+
+Our contribution introduces online disturbance adaptation into this architecture. An EMA-inspired observer estimates the disturbance, and a rolling window captures its remaining prediction errors. These residuals define an empirical distribution whose adverse tail is evaluated through a Wasserstein-robust CVaR margin. The resulting correction adapts to recent conditions while preserving the trained navigation policy. This provides a practical way to account for uncertainty without retraining the policy whenever the disturbance changes.
+
+The evaluation shows that adaptation improves collision avoidance, at the cost of greater path deviation and more timeouts. In the main paired benchmark, Ours achieves a 73.6\% success rate, a 17.4\% collision rate and a 9.0\% timeout rate. Compared with the nominal filter, it maintains greater obstacle clearance but deviates further from the reference path. These results highlight the importance of assessing success, collisions, timeouts and tracking together.
+
+The practical extension uses Isaac Sim and MuJoCo to examine navigation with richer physics and local perception. In the reported comparison with NavRL, Ours achieves higher success and lower collision rates in all three scenarios. Tracking error improves in the first two scenarios, while the most crowded dynamic setting remains difficult for both methods. This sim2sim evaluation is a step toward reducing the sim2real gap; physical flight is the next validation stage.
+
+\section*{Future Work}
+\phantomsection\addcontentsline{toc}{section}{Future Work}
+Future work will focus on physical deployment and on reducing unnecessary path deviation while preserving the observed gains in collision avoidance.
+Further evaluation will examine sensing and dynamics mismatch, observer and residual-window settings, and navigation among dense dynamic obstacles. These directions follow the limitations observed in the simulations.
+
+\clearpage\endgroup

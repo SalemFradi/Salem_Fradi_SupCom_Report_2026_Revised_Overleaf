@@ -1,0 +1,33 @@
+\chapter{System Model and Problem Formulation}
+\label{ch:system}
+
+\section{Navigation Task and Control Architecture}
+The navigation task is to reach a goal or follow a reference route while avoiding obstacles under unknown disturbances. The reinforcement-learning policy proposes a nominal command, and a control barrier function filter adjusts that command before it is applied. A low-level controller realizes the requested motion. The policy is trained in advance and remains fixed during the evaluation; disturbance estimation and safety-margin adaptation operate online.
+
+The control-affine and disturbed dynamics introduced in Section~\ref{ch:navigation} provide the general background. Here, the model is specified at the velocity-command interface used by the proposed safety layer.
+
+\section{Velocity-Command Model and Disturbance}
+We express the filter at the velocity-command interface. Let $p\in\R^3$ be position, $u_B$ the yaw-aligned body-frame command and $R$ the known rotation into world coordinates:
+\begin{equation}
+ \dot p=Ru_B+d,\qquad
+ \mathcal U_B=[-u_{\max},u_{\max}]^3.
+ \label{eq:contribution_model}
+\end{equation}
+The effective disturbance $d$ represents the motion mismatch at this interface, including the effect of wind on velocity tracking. The low-level controller realizes the requested motion.
+
+\section{Clearance Barrier and Safety Constraint}
+For a differentiable clearance barrier $B(p)$ with nonzero gradient, write
+\begin{equation}
+ a=\nabla B(p),\qquad a_B=R^\top a,\qquad
+ n=\frac{a}{\norm{a}_2}.
+ \label{eq:contribution_normal}
+\end{equation}
+The unit normal $n$ points toward increasing clearance. The corresponding CBF condition is $a_B^\top u_B+a^\top d+\alpha B(p)\geq0$, with $\alpha>0$. Keeping the command in its original body frame preserves the componentwise input bounds.
+
+\section{Problem Formulation}
+The problem is to select an admissible executed command that stays close to the policy proposal while accounting for clearance loss caused by the unknown disturbance. The available information consists of measured motion, the previously executed command, the current clearance barrier and the known body-to-world rotation. Recent motion mismatch supplies the disturbance estimate and residual history.
+
+A fixed margin cannot respond to changing disturbance conditions. The proposed solution therefore constructs an online allowance from the estimated disturbance and the adverse tail of recent residuals, then incorporates it into the bounded CBF projection. Chapter~\ref{ch:contribution} gives this construction and its optimization problem. The safety interpretation retains the model, feasibility and enforcement requirements discussed in Section~\ref{ch:cbf}.
+
+\section{Evaluation Settings}
+The static benchmark compares deployed safety filters using known obstacle geometry and a frozen policy. The Isaac Sim and MuJoCo extension adds richer physics and local perception. Section~\ref{sec:simulation_setup} introduces both environments before the results, including the static-arena dimensions, obstacle configurations and evaluation conventions.

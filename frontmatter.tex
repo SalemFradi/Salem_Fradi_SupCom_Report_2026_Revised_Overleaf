@@ -1,0 +1,96 @@
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\thispagestyle{empty}\fontsize{12}{14.5}\selectfont
+\begin{center}
+\includegraphics[width=6.2cm]{figures/supcom_logo.pdf}
+\end{center}
+\vspace{.6cm}
+\hrule
+\begin{center}
+\vspace{.5cm}
+{\fontsize{14.4}{18}\selectfont\itshape Telecommunications Engineering Program}\\[.6cm]
+{\fontsize{20.74}{25}\selectfont\bfseries Final-Year Project Report}\\[.5cm]
+{\fontsize{14.4}{18}\selectfont Project Title}\\[.3cm]
+{\fontsize{20.74}{25}\selectfont\bfseries Safe Drone Navigation\\[.15cm]Under Disturbance Shifts}\\[.35cm]
+{\fontsize{14.4}{18}\selectfont\bfseries Reinforcement Learning, Safety and\\Disturbance Rejection}\\[.5cm]
+{\fontsize{14.4}{18}\selectfont\itshape Prepared by}\\[.15cm]
+{\fontsize{17.28}{22}\selectfont\bfseries Salem Fradi}\\[.5cm]
+{\fontsize{14.4}{18}\selectfont\itshape Supervisors}\\[.2cm]
+\begin{tabular}{ll}
+Hakim Ghazzai & KAUST\\[.15cm]
+Mohamed Siala & Sup'Com
+\end{tabular}\\[.5cm]
+{\itshape Work proposed and carried in collaboration with}\\[.2cm]
+\includegraphics[height=1.15cm]{figures/kaust_logo.pdf}\\[.1cm]
+{\bfseries KAUST}\\[.1cm]
+{\fontsize{12}{14.5}\selectfont\bfseries King Abdullah University of Science and Technology}\\[.1cm]
+{Thuwal, Saudi Arabia}\\[.55cm]
+{Internship Period: 1 February--30 July 2026}\\[.25cm]
+{Academic Year: 2025--2026}
+\end{center}
+\vfill
+\noindent\colorbox{lightblue}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\centering\fontsize{11}{13.6}\selectfont
+Higher School of Communication of Tunis\\
+\textbf{SUP'COM}\\
+2083 Elghazala Communication Technology Park -- Ariana -- Tunisia\\
+Tel. +216 70 240 900 -- \url{https://www.supcom.tn}
+}}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+I would like to express my sincere gratitude to Hakim Ghazzai, my supervisor at KAUST, and Mohamed Siala, my supervisor at Sup'Com, for their guidance throughout this final-year project. Their advice helped me develop the work and present its technical ideas with greater clarity. I am grateful for the time and attention they devoted to supervising this internship.
+
+I thank Hakim Ghazzai for guiding the research carried out in collaboration with KAUST, and Mohamed Siala for his academic supervision at Sup'Com. Bringing these perspectives together helped me connect the engineering foundations of my studies with the demands of a research project in safe robotic navigation.
+
+I also express my appreciation to Sup'Com for the education that prepared me for this work, and to KAUST for the opportunity to carry out the internship. This collaboration provided a valuable setting in which to study reinforcement learning, control barrier functions and disturbance-aware navigation, and to develop greater independence in conducting and communicating research.
+
+Finally, I thank everyone who contributed to the discussions and feedback surrounding this project. Preparing this report has reinforced the importance of examining assumptions carefully, interpreting experimental results with care and acknowledging the limits of what an evaluation can establish. I am grateful for the guidance that supported this learning process.
+
+\clearpage
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Reinforcement learning has become a central framework for sequential decision making, with achievements ranging from DeepMind's Atari agents and AlphaGo's victory over a Go world champion to the post-training and alignment of large language models. Robotics extends this progress to embodied intelligence, where learned decisions must interact safely with physical environments.
+
+However, strong performance in training or simulation does not ensure reliable behavior during deployment. Disturbances, uncertainty and differences between simulated and real dynamics can lead to unsafe actions. Despite advances in safe reinforcement learning, offline safe reinforcement learning and constrained learning more broadly, enforcing safety during policy execution remains a major challenge. This motivates combining learned decision making with mathematical safety guarantees. Control barrier functions provide a framework for restricting actions to preserve a safe set under stated assumptions.
+
+This report investigates the combination of reinforcement learning and control barrier functions for drone navigation under disturbances. This perspective motivates assessing robustness in IsaacSim for sim2real reasons.
+
+\noindent\textbf{Keywords:} reinforcement learning, embodied intelligence, robotics, control barrier functions, safe navigation, sim2real.
+
+\clearpage{\small\setstretch{1.0}\tableofcontents}
+\clearpage\phantomsection\addcontentsline{toc}{chapter}{List of Figures}\listoffigures
+\clearpage\phantomsection\addcontentsline{toc}{chapter}{List of Tables}\listoftables
+\chapter*{Notation and Abbreviations}
+\addcontentsline{toc}{chapter}{Notation and Abbreviations}
+\begin{longtable}{@{}p{.21\textwidth}p{.73\textwidth}@{}}
+\toprule Symbol & Meaning\\\midrule\endhead
+$x,u$ & State and control input\\
+$f,g$ & Nominal dynamics and input map\\
+$d,\hat d$ & Disturbance and its estimate\\
+$p,v$ & Position and translational velocity\\
+$V$ & Control Lyapunov function\\
+$B$ & Control barrier function\\
+$\mathcal U,\mathcal C$ & Admissible input set and safe set\\
+$\pi_\theta$ & Policy with parameters $\theta$\\
+$J_r,J_c$ & Expected reward and constraint-cost objectives\\
+$\lambda$ & Nonnegative constraint multiplier\\
+$\varepsilon$ & PPO clipping parameter\\
+$\epsilon,\rho$ & Tail probability and Wasserstein ambiguity radius\\
+$W_1$ & 1-Wasserstein distance\\
+CVaR & Conditional value-at-risk\\
+CBF / CLF & Control barrier / Lyapunov function\\
+HOCBF & High-order control barrier function\\
+CMDP & Constrained Markov decision process\\
+IoT / UAV & Internet of Things / unmanned aerial vehicle\\
+PID / MPC & Proportional-integral-derivative / model predictive control\\
+PPO / RL & Proximal policy optimization / reinforcement learning\\
+INDI & Incremental nonlinear dynamic inversion\\
+DOB / EMA & Disturbance observer / exponential moving average\\
+RMA & Rapid Motor Adaptation\\
+DATT & Deep Adaptive Trajectory Tracking\\
+LoTF / LoRA & Learning on the Fly / low-rank adaptation\\
+\bottomrule
+\end{longtable}
+Symbols in figures from other publications retain the notation of their authors and are explained in the corresponding discussion.
